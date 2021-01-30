@@ -1,10 +1,10 @@
 import React from 'react'
 import PageOneContent from '../Components/PageOneContent'
 
-function PageOne(){
+function PageOne({data}){
     return(
         <div>
-            <PageOneContent />
+            <PageOneContent data={data}/>
         </div>
     )}
 
