@@ -1,23 +1,34 @@
-import Button from '@material-ui/core/Button';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
-import './App.css';
-import PageOne from './Pages/PageOne';
-import PageTwo from './Pages/PageTwo';
-import PageThree from './Pages/PageThree';
-import React,{ useState, useEffect } from 'react';
-import PageFour from './Pages/PageFour';
+import * as React from 'react';
+import { DataGrid } from '@material-ui/data-grid';
 
-function App() {
-  const [data,setData] = useState([    
-    [
-      {
+// const columns = [
+//   { field: 'id', headerName: 'ID', width: 70 },
+//   { field: 'firstName', headerName: 'First name', width: 130 },
+//   { field: 'lastName', headerName: 'Last name', width: 130 },
+//   {
+//     field: 'age',
+//     headerName: 'Age',
+//     type: 'number',
+//     width: 90,
+//   },
+// ];
+
+
+export default function PageFourDataGrid(props) {
+    // const [rows, setRows] = React.useState()
+    React.useEffect(()=>console.log(props.data),[props.data])
+    const [data2,setData2] = React.useState(props.data)
+    
+    const columns = [        
+        {field:'no',headerName:'no',type:'number', width:70},
+        {field:'RM',headerName:'RM',type:'number', width:130},
+        {field:'Jenis_Kelamin',headerName:'Jenis Kelamin', width:230},
+        {field:'Penjamin',headerName:'Penjamin', width:230},
+        {field:'umur',headerName:'umur',type:'number', width:130},
+    ]
+    //bisa ditampilkan kolom tanpa id
+    const [rows,setRows] = React.useState([    
+        {
         "id": 4033,
         "no": 1,
         "RM": 900005,
@@ -117,44 +128,12 @@ function App() {
         "Penjamin": "PASIEN BAYAR SENDIRI",
         "umur": 21
       }
-    ]
-  ])
-
+    ])
+    
   return (
-    <div className="App">
-      <Router>
-        Hello World        
-        <Button variant="contained" color="secondary">halo dunia
-        </Button> 
-        <br />
-        <br />
-
-        <Link to="/">ke halaman 1</Link>
-        <Link to="2">ke halaman 2</Link>
-        <Link to="3">ke halaman 3</Link>
-        <Link to="4">ke halaman 4</Link>
-
-
-        <Switch>
-          <Route path="/2">
-            <PageTwo />
-          </Route>
-          <Route path="/3">
-            <PageThree data={data}/>
-          </Route>
-          <Route path="/4">
-            <PageFour data={data}/>
-          </Route>
-          <Route path="/">
-            <PageOne data={data}/>
-          </Route>
-        </Switch>
-
-        
-
-      </Router>
+    <div style={{ height: 400, width: '100%' }}>
+        {data2 ? 'ada':"tidak ada"}
+      <DataGrid rows={rows} columns={columns} pageSize={[4]} rowsPerPageOptions={[5,10]} pagination={5}/>
     </div>
   );
 }
-
-export default App;

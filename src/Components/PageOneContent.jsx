@@ -13,8 +13,9 @@ const useStyles = makeStyles({
       minWidth: 650,
     },
   });
-function PageOneContent({data}){
-    React.useEffect(()=>console.log(data),[data])
+function PageOneContent({data}){    
+    React.useEffect(()=>console.log([data]),[data])
+    const coba =[1,2,3,4,5]
     const classes = useStyles()
     return(
         <div>
@@ -33,12 +34,7 @@ function PageOneContent({data}){
         <TableBody>
           {data.map((row,idx) => (
             <TableRow key={idx}>
-              <TableCell component="th" scope="row">{row.no}</TableCell>
-              <TableCell align="right">{row.RM}</TableCell>
-              <TableCell align="right">{row.Nama_pasien}</TableCell>              
-              <TableCell align="right">{row.Penjamin}</TableCell>
-              <TableCell align="right">{row.umur}</TableCell>
-              
+                data
             </TableRow>
           ))}
         </TableBody>
