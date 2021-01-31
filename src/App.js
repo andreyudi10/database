@@ -121,28 +121,13 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        Hello World        
-        <Button variant="contained" color="secondary">halo dunia
-        </Button> 
+      <Router>        
         <br />
-        <br />
+        <br />              
 
-        <Link to="/">ke halaman 1</Link>
-        <Link to="2">ke halaman 2</Link>
-        <Link to="3">ke halaman 3</Link>
-
-
-
-        <Switch>
-          <Route path="/2">
-            <PageTwo />
-          </Route>
-          <Route path="/3">
-            <PageThree data={data}/>
-          </Route>
+        <Switch>          
           <Route path="/">
-            <PageOne data={data}/>
+            <PageTwo data={data}/>
           </Route>
         </Switch>
 
