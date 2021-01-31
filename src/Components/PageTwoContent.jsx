@@ -29,7 +29,7 @@ const PageTwoContent = () => {
         const datas = await axios(config)
         .then(function (response) {                                
             console.log(response.data.data)                
-            setData(response.data.data)    
+            setData(response.data.data)                
 
         })
         .catch(function (error) {
@@ -39,80 +39,38 @@ const PageTwoContent = () => {
         getData();    
   }, [])
   
-  const sorting = data.map((value,idx)=>value.data_pasien.umur)
-  const sorting2 = data.map((value,idx)=>value.data_pasien.nama_pasien!==null?value.data_pasien.nama_pasien:'zero')
-  const sorting3 = data.map((value,idx)=>value.data_catatan.icd_9.code!==null?value.data_catatan.icd_9.code:'-')
+  const no = data.map((value,idx)=>idx+1)
+  const RM = data.map((value,idx)=>value.data_pasien.no_rm!==null?value.data_pasien.no_rm:'-')
+  const no_bpjs = data.map((value,idx)=>value.data_pasien.no_bpjs!==null?value.data_pasien.no_bpjs:'-')
+  const nama_pasien = data.map((value,idx)=>value.data_pasien.nama_pasien!==null?value.data_pasien.nama_pasien:'-')
+  const kelamin = data.map((value,idx)=>value.data_pasien.kelamin!==null?value.data_pasien.kelamin:'-')
+  const penjamin = data.map((value,idx)=>value.data_pasien.penjamin!==null?value.data_pasien.penjamin:'-')
+  const umur = data.map((value,idx)=>value.data_pasien.umur!==null?value.data_pasien.umur:'-')
+  const alamat_pasien = data.map((value,idx)=>value.data_pasien.alamat_1!==null?value.data_pasien.alamat_1:'-')
+  const alamat_pasien2 = data.map((value,idx)=>value.data_pasien.alamat_2!==null?value.data_pasien.alamat_2:'-')
+  const status = data.map((value,idx)=>value.data_pasien.status!==null?value.data_pasien.status:'-')
+  const icd_9 = data.map((value,idx)=>value.data_catatan.icd_9.code!==null?value.data_catatan.icd_9.code:'-')
   // const sorting4 = sorting3.map((value,idx)=>value!==null?'isi';'null')
   let arayKosong = []
   let objekKosong = {}  
-  for(let i=0;i<sorting.length;i++){
+  for(let i=0;i<no.length;i++){
     objekKosong={}
-    objekKosong['makan']=sorting[i]
-    objekKosong['minum']=sorting2[i]
-    objekKosong['medok']=sorting3[i]
+    objekKosong['No']=no[i]
+    objekKosong['RM']=RM[i]
+    objekKosong['BPJS']=no_bpjs[i]
+    objekKosong['Nama Pasien']=nama_pasien[i]
+    objekKosong['Jenis Kelamin']=kelamin[i]
+    objekKosong['Penjamin']=penjamin[i]
+    objekKosong['Alamat Pasien']=`${alamat_pasien[i]}, ${alamat_pasien2[i]}`
+    objekKosong['Umur']=umur[i]
+    objekKosong['Icd 9']=icd_9[i]
     arayKosong.push(objekKosong)
   }
 
   useEffect(()=>
-    console.log(data,arayKosong)    
-  ,[sorting])
+    console.log(data,arayKosong,filterable)    
+  ,[no])
 
-
-
-  const additionalCols = [
-    {
-      header: 'Actions',
-      td: (data) => {
-        return (
-          <div>
-            <img
-              src={deleteIcon}
-              alt='delete'
-              width='30'
-              height='20'
-              onClick={() => alert('this is delete for id ' + data.id)}
-            />
-            <img
-              src={editIcon}
-              alt='edit'
-              width='30'
-              height='20'
-              onClick={() => alert('this is edit for id ' + data.id)}
-            />
-          </div>
-        )
-      }
-    }
-  ]
-  const columns = [
-    {
-      header: 'name',
-      key: 'user.name'
-    },
-    {
-      header: 'Actions',
-      td: (data) => {
-        return (
-          <div>
-            <img
-              src={deleteIcon}
-              alt='delete'
-              width='30'
-              height='20'
-              onClick={() => alert('this is delete for id ' + data.id)}
-            />
-            <img
-              src={editIcon}
-              alt='edit'
-              width='30'
-              height='20'
-              onClick={() => alert('this is edit for id ' + data.id)}
-            />
-          </div>
-        )
-      }
-    }
-  ]
   const editDownloadProps = (e) => {
     let newProps = { ...downloadExcelProps }
 
@@ -202,8 +160,7 @@ const PageTwoContent = () => {
         data={arayKosong}
         sortable={sortable}
         filterable={filterable}
-        caseSensitive={caseSensivite}
-        additionalCols={additionalCols}
+        caseSensitive={caseSensivite}        
         globalSearch
         downloadExcelProps={downloadExcelProps}
         showExcelButton

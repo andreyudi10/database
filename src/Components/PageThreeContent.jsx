@@ -51,35 +51,7 @@ const PageThreeContent = () => {
       }
     }
   ]
-  const columns = [
-    {
-      header: 'name',
-      key: 'user.name'
-    },
-    {
-      header: 'Actions',
-      td: (data) => {
-        return (
-          <div>
-            <img
-              src={deleteIcon}
-              alt='delete'
-              width='30'
-              height='20'
-              onClick={() => alert('this is delete for id ' + data.id)}
-            />
-            <img
-              src={editIcon}
-              alt='edit'
-              width='30'
-              height='20'
-              onClick={() => alert('this is edit for id ' + data.id)}
-            />
-          </div>
-        )
-      }
-    }
-  ]
+
   const editDownloadProps = (e) => {
     let newProps = { ...downloadExcelProps }
 
@@ -169,8 +141,7 @@ const PageThreeContent = () => {
         data={data}
         sortable={sortable}
         filterable={filterable}
-        caseSensitive={caseSensivite}
-        additionalCols={additionalCols}
+        caseSensitive={caseSensivite}        
         globalSearch
         downloadExcelProps={downloadExcelProps}
         showExcelButton
