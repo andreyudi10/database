@@ -12,8 +12,7 @@ import PageOne from './Pages/PageOne';
 import PageTwo from './Pages/PageTwo';
 import PageThree from './Pages/PageThree';
 import React,{ useState, useEffect } from 'react';
-import PageFour from './Pages/PageFour';
-import PageFive from './Pages/PageFive';
+
 
 function App() {
   const [data,setData] = useState([    
@@ -132,8 +131,7 @@ function App() {
         <Link to="/">ke halaman 1</Link>
         <Link to="2">ke halaman 2</Link>
         <Link to="3">ke halaman 3</Link>
-        <Link to="4">ke halaman 4</Link>
-        <Link to="5">ke halaman 5</Link>
+
 
 
         <Switch>
@@ -142,12 +140,6 @@ function App() {
           </Route>
           <Route path="/3">
             <PageThree data={data}/>
-          </Route>
-          <Route path="/4">
-            <PageFour data={data}/>
-          </Route>
-          <Route path="/5">
-            <PageFive data={data}/>
           </Route>
           <Route path="/">
             <PageOne data={data}/>

@@ -1,66 +1,182 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import React, { useState, useEffect } from 'react'
+import ReactFlexyTable from 'react-flexy-table'
+import 'react-flexy-table/dist/index.css'
+import axios from 'axios';
+import deleteIcon from '../Components/logo192.png'
+import editIcon from '../Components/logo192.png'
 
-//style
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
 
-//make data
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+const PageThreeContent = () => {
+  const [caseSensivite, setCaseSensivite] = useState(false)
+  const [sortable, setSortable] = useState(true)
+  const [filterable, setFilterable] = useState(true)
+  const [data, setData] = useState([])
+  const [downloadExcelProps, setDownloadExcelProps] = useState({
+    type: 'all',
+    title: 'test',
+    showLabel: true
+  })
+  useEffect(() => {
+    const fetchData = async () => {
+      const endpoint = `https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=boolean`
+      const items = await (await fetch(endpoint)).json()
+      setData(items.results)
+      console.log(items.results)
+    }
 
-//insert to make data
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+    fetchData()
+  }, [])
+  const additionalCols = [
+    {
+      header: 'Actions',
+      td: (data) => {
+        return (
+          <div>
+            <img
+              src={deleteIcon}
+              alt='delete'
+              width='30'
+              height='20'
+              onClick={() => alert('this is delete for id ' + data.id)}
+            />
+            <img
+              src={editIcon}
+              alt='edit'
+              width='30'
+              height='20'
+              onClick={() => alert('this is edit for id ' + data.id)}
+            />
+          </div>
+        )
+      }
+    }
+  ]
+  const columns = [
+    {
+      header: 'name',
+      key: 'user.name'
+    },
+    {
+      header: 'Actions',
+      td: (data) => {
+        return (
+          <div>
+            <img
+              src={deleteIcon}
+              alt='delete'
+              width='30'
+              height='20'
+              onClick={() => alert('this is delete for id ' + data.id)}
+            />
+            <img
+              src={editIcon}
+              alt='edit'
+              width='30'
+              height='20'
+              onClick={() => alert('this is edit for id ' + data.id)}
+            />
+          </div>
+        )
+      }
+    }
+  ]
+  const editDownloadProps = (e) => {
+    let newProps = { ...downloadExcelProps }
 
-export default function PageThreeContent(props) {
-  const classes = useStyles();
+    newProps[e.target.name] = e.target.value
+    setDownloadExcelProps(newProps)
+  }
+  const editDownloadPropsCheckBox = (e) => {
+    let newProps = { ...downloadExcelProps }
 
-  React.useEffect(()=>
-  console.log(rows),[rows])
-
+    newProps[e.target.name] = e.target.checked
+    setDownloadExcelProps(newProps)
+  }
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+    <div style={{ margin: '30px' }}>
+      <h2 style={{ textAlign: 'center' }}>react-flexy-table</h2>
+      <div style={{ display: 'flex' }}>
+        <div style={{ margin: '30px' }}>
+          <label>Handle search case sensivite</label>
+          <select
+            onChange={(e) => setCaseSensivite(e.target.value === 'true')}
+            style={{ marginLeft: '10px', padding: '5px' }}
+            value={caseSensivite}
+          >
+            <option value={false}>Close</option>
+            <option value={true}>Open</option>
+          </select>
+        </div>
+        <div style={{ margin: '30px' }}>
+          <label>Handle sortable</label>
+          <select
+            onChange={(e) => setSortable(e.target.value === 'true')}
+            style={{ marginLeft: '10px', padding: '5px' }}
+            value={sortable}
+          >
+            <option value={false}>Close</option>
+            <option value={true}>Open</option>
+          </select>
+        </div>
+        <div style={{ margin: '30px' }}>
+          <label>Handle filterable</label>
+          <select
+            onChange={(e) => setFilterable(e.target.value === 'true')}
+            style={{ marginLeft: '10px', padding: '5px' }}
+            value={filterable}
+          >
+            <option value={false}>Close</option>
+            <option value={true}>Open</option>
+          </select>
+        </div>
+
+        <div style={{ margin: '30px' }}>
+          <label>Download Excel Type</label>
+          <select
+            onChange={editDownloadProps}
+            style={{ marginLeft: '10px', padding: '5px' }}
+            value={downloadExcelProps.type}
+            name='type'
+          >
+            <option value={'filtered'}>Filtered</option>
+            <option value={'paged'}>Paged</option>
+            <option value={'all'}>All</option>
+          </select>
+        </div>
+
+        <div style={{ margin: '30px' }}>
+          <label>Download Excel Show Label</label>
+          <input
+            type='checkbox'
+            onChange={editDownloadPropsCheckBox}
+            style={{ marginLeft: '10px', padding: '5px' }}
+            checked={downloadExcelProps.showLabel}
+            name='showLabel'
+          />
+        </div>
+        <div style={{ margin: '30px' }}>
+          <label>Download Excel title</label>
+          <input
+            type='text'
+            onChange={editDownloadProps}
+            style={{ marginLeft: '10px', padding: '5px' }}
+            value={downloadExcelProps.title}
+            name='title'
+          />
+        </div>
+      </div>
+      <ReactFlexyTable
+        data={data}
+        sortable={sortable}
+        filterable={filterable}
+        caseSensitive={caseSensivite}
+        additionalCols={additionalCols}
+        globalSearch
+        downloadExcelProps={downloadExcelProps}
+        showExcelButton
+      />
+    </div>
+  )
 }
+
+export default PageThreeContent
